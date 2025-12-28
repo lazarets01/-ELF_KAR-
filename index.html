@@ -6,207 +6,245 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-:root {
+:root{
+  --bg:#0b0615;
+  --card:#140b25;
   --accent:#8b5cff;
-  --accent-soft:#a98bff;
-  --text:#ffffff;
+  --accent-soft:#b59bff;
+  --text:#f1edff;
+  --muted:#a89fc4;
+  --danger:#ff4d6d;
 }
+
+*{box-sizing:border-box}
 body{
   margin:0;
-  min-height:100vh;
-  background:radial-gradient(ellipse at top,#5a1fa6 0%,#12001f 45%,#05010a 100%);
+  font-family:Inter,system-ui,sans-serif;
+  background:radial-gradient(circle at top, #1a0f33, #06030c);
   color:var(--text);
-  font-family:Inter,Segoe UI,sans-serif;
 }
-h1{text-align:center;font-size:64px;letter-spacing:6px;color:var(--accent)}
-.center{max-width:1200px;margin:auto;padding:20px}
-.card{
-  background:rgba(26,16,41,.75);
-  backdrop-filter:blur(14px);
-  border-radius:22px;
-  padding:24px;
-  margin:20px 0;
+
+h1{
+  text-align:center;
+  margin:60px 0 10px;
+  font-size:56px;
+  letter-spacing:4px;
 }
-.btn{
-  background:linear-gradient(135deg,#7b4dff,#a78bff);
-  border:none;
-  padding:12px 26px;
-  border-radius:40px;
-  font-weight:700;
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
+}
+
+.description{
+  text-align:center;
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:30px;
+}
+
+.buttons, .sub-buttons, .flavors, .cart{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  justify-content:center;
+}
+
+button{
+  background:linear-gradient(145deg,#1e1238,#120a25);
+  border:1px solid #2b1a52;
+  color:var(--text);
+  padding:12px 18px;
+  border-radius:14px;
   cursor:pointer;
-  margin:6px;
+  transition:.2s;
 }
-.btn.small{padding:8px 14px;font-size:14px}
+button:hover{transform:translateY(-2px); background:#25114a}
+
 .hidden{display:none}
-.flavors{display:flex;flex-wrap:wrap;gap:10px}
+
+.card{
+  background:var(--card);
+  border-radius:20px;
+  padding:20px;
+  margin-top:25px;
+}
+
+img.product{
+  max-width:220px;
+  border-radius:16px;
+}
+
+/* CART */
 .cart-btn{
-  position:fixed;top:20px;right:20px;
-  background:rgba(30,10,60,.6);
-  backdrop-filter:blur(10px);
-  padding:12px 16px;border-radius:30px;
-  cursor:pointer;font-weight:700
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:var(--accent);
 }
-.cart{
-  position:fixed;right:0;top:0;width:360px;height:100%;
-  background:#120a20;padding:20px;
-  transform:translateX(100%);transition:.3s;overflow:auto
+.cart-panel{
+  position:fixed;
+  top:0; right:0;
+  width:320px;
+  height:100%;
+  background:#0f081f;
+  padding:15px;
+  transform:translateX(100%);
+  transition:.3s;
+  overflow:auto;
 }
-.cart.open{transform:translateX(0)}
-.cart-item{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.cart-item input{width:50px}
-.remove{color:#ff4d4d;cursor:pointer;font-weight:900}
+.cart-panel.active{transform:translateX(0)}
+
+.cart-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+  gap:5px;
+}
+.cart-item input{
+  width:50px;
+}
+.remove{color:var(--danger); cursor:pointer}
+
 .total{
-  position:fixed;bottom:20px;left:20px;
-  background:var(--accent);color:#000;
-  padding:14px 20px;border-radius:20px;font-weight:900
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  background:#1a1033;
+  padding:12px 18px;
+  border-radius:14px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="cart-btn" onclick="toggleCart()">🛒 КОШИК</div>
+<button class="cart-btn" onclick="toggleCart()">🛒 Кошик</button>
 
-<div class="cart" id="cart">
-<h2>Кошик</h2>
-<div id="cartItems"></div>
-<button class="btn" onclick="order()">Замовити</button>
-</div>
-
-<div class="total" id="total">Сума: 0 грн</div>
-
-<div class="center">
 <h1>ELF_KAR</h1>
 
-<div class="card">
-<button class="btn" onclick="show('chaser')">CHASER</button>
-</div>
+<div class="container">
+  <div class="description">
+ELF_KAR — вейп-шоп нового покоління. Ми збираємо топові вейп-девайси, pod-системи, рідини та аксесуари, які реально тримають рівень у 2025 році.
+<br><br>
+ELF_KAR — коли ви в темі й обираєте краще.
+  </div>
 
-<div class="card hidden" id="chaser">
-<button class="btn small" onclick="chaser10()">10ml</button>
-<button class="btn small" onclick="chaser30()">30ml</button>
-<div id="chaserFlav" class="flavors"></div>
+  <div class="buttons">
+    <button onclick="showSection('elfliq')">ELF_LIQ</button>
+    <button onclick="showSection('chaser')">CHASER</button>
+    <button onclick="showSection('phantom')">PHANTOM</button>
+    <button>КАРТРИДЖІ</button>
+  </div>
 
-<div id="chaser30Box" class="hidden card">
-  <div style="display:flex;gap:20px;flex-wrap:wrap">
-    <img id="chaserImg" width="180" style="border-radius:16px">
-    <div id="chaserTasteBtns" class="flavors"></div>
+  <!-- ELF LIQ -->
+  <div id="elfliq" class="card hidden">
+    <div class="sub-buttons">
+      <button onclick="toggle('elf-desc')">ОПИС</button>
+      <button onclick="toggle('elf-flavors')">ВКУСИ</button>
+    </div>
+
+    <div id="elf-desc" class="hidden">
+      <img class="product" src="https://cdn.kalyancity.in.ua/groups/images/elf-bar-elf-liq-10-ml-5.jpg">
+      <p>ELF_LIQ — це високоякісна сольова рідина від Elf Bar...</p>
+    </div>
+
+    <div id="elf-flavors" class="hidden flavors">
+      <script>
+        const elfFlavors=[
+          "Blueberry","Pink Lemonade","Watermelon","Grape Cherry",
+          "Raspberry Lychee","Cherry Cola","Apple Peach Grape","Cola",
+          "Mango Pink Grapefruit","Lemon Lime","Strawberry Kiwi",
+          "Elfturbo Ice","Strawberry Raspberry","Cherry Ice","Sour Apple",
+          "Sour Raspberry","Pineapple Mango Orange","Spearmint",
+          "Blue Razz Lemonade","Cherry"
+        ];
+        elfFlavors.forEach(f=>{
+          document.write(`<button onclick="addToCart('ELF_LIQ ${f}',120)">➕ ${f}</button>`);
+        });
+      </script>
+    </div>
+  </div>
+
+  <!-- PHANTOM -->
+  <div id="phantom" class="card hidden">
+    <div class="sub-buttons">
+      <button onclick="showPhantom(10)">10ml</button>
+      <button onclick="showPhantom(30)">30ml</button>
+    </div>
+    <div id="phantom-flavors" class="flavors"></div>
+    <p id="phantom-desc"></p>
+  </div>
+
+  <!-- CHASER -->
+  <div id="chaser" class="card hidden">
+    <div class="sub-buttons">
+      <button onclick="showChaser10()">10ml</button>
+      <button onclick="showChaser30()">30ml</button>
+    </div>
+    <div id="chaser-content"></div>
   </div>
 </div>
-</div>
-</div>
+
+<div class="cart-panel" id="cart"></div>
+<div class="total" id="total">Сума: 0 грн</div>
 
 <script>
 let cart=[];
-const prices={10:120,30:250};
 
-function toggleCart(){
-document.getElementById('cart').classList.toggle('open');
+function showSection(id){
+  document.querySelectorAll('.card').forEach(c=>c.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
 }
 
-function add(name,ml){
-cart.push({name,ml,qty:1});
-renderCart();
+function toggle(id){
+  document.getElementById(id).classList.toggle('hidden');
+}
+
+function addToCart(name,price){
+  let item=cart.find(i=>i.name===name);
+  if(item){item.qty++}
+  else cart.push({name,price,qty:1});
+  renderCart();
 }
 
 function renderCart(){
-let html='',sum=0;
-cart.forEach((i,idx)=>{
-let p=prices[i.ml]*i.qty; sum+=p;
-html+=`
-<div class="cart-item">
-<span>${i.name}</span>
-<input type="number" min="1" value="${i.qty}"
- onchange="cart[${idx}].qty=this.value;renderCart()">
-<span>${p} грн</span>
-<span class="remove" onclick="cart.splice(${idx},1);renderCart()">✖</span>
-</div>`;
-});
-cartItems.innerHTML=html;
-total.innerText='Сума: '+sum+' грн';
+  let c=document.getElementById('cart');
+  c.innerHTML='<h3>Кошик</h3>';
+  let sum=0;
+  cart.forEach((i,idx)=>{
+    sum+=i.price*i.qty;
+    c.innerHTML+=`
+    <div class="cart-item">
+      <span>${i.name}</span>
+      <input type="number" min="1" value="${i.qty}"
+      onchange="cart[${idx}].qty=this.value;renderCart()">
+      <span class="remove" onclick="cart.splice(${idx},1);renderCart()">✖</span>
+    </div>`;
+  });
+  c.innerHTML+=`<button onclick="order()">Замовити</button>`;
+  document.getElementById('total').innerText='Сума: '+sum+' грн';
+}
+
+function toggleCart(){
+  document.getElementById('cart').classList.toggle('active');
 }
 
 function order(){
-let text='Доброго дня, хочу купити:\n';
-let sum=0;
-cart.forEach(i=>{
-text+=`${i.name} x${i.qty}\n`;
-sum+=prices[i.ml]*i.qty;
-});
-text+='Сума: '+sum+' грн';
-window.open('https://t.me/Karasi4ek123?text='+encodeURIComponent(text));
-}
-
-function show(id){
-document.querySelectorAll('.card.hidden').forEach(e=>e.classList.add('hidden'));
-document.getElementById(id).classList.remove('hidden');
-}
-
-const chaserFlavors=[
-'Bubblegum','Triple Sour Apple','Triple Berry','Triple Raspberry',
-'Energy Raspberry','Energy Grape','Lemon Mint','Blue Raz Apple',
-'Blackberry Sour Raspberry','Pink Lemonade','Flirt','Forest Mix',
-'Compote','Bali','Bali Triple Shot','Wild Strawberry Kiwi',
-'Strawberry Blueberry','Blackcurrant Peach Apple','Jasmine Razz Tea',
-'Blackcurrant Rose','Watermelon Lemon',
-'Banana Apple (лімітований)','Peach Lemonade (лімітований)','Mojito'
-];
-
-const limitedFlavors=[
-'Bubblegum','Triple Sour Apple','Triple Berry',
-'Triple Raspberry','Energy Raspberry','Energy Grape','Lemon Mint'
-];
-
-const types={
-BLACK:{
-img:'https://terra-vape.com.ua/image/cache/catalog/Chaser/Chaser-black-salt-new-30ml/chaser-black-salt-balanced-30ml-bubblegum-1000x1000.jpg',
-fl:chaserFlavors},
-LUX:{
-img:'https://vapebanda.com.ua/files/resized/products/gu.600x300.jpg',
-fl:chaserFlavors},
-SB:{
-img:'https://hookahcat.com.ua/image/cache/catalog/productphoto/6159/nabor-chaser-special-berry-blackberry-2-600x600.jpg',
-fl:chaserFlavors},
-MIX:{
-img:'https://terra-vape.com.ua/image/cache/catalog/Chaser/Chaser-Mix-Balance-Salt-30ml-Nabory/chaser-mix-balance-salt-nabor-30ml-strawberry-grape-1000x1000.jpg',
-fl:chaserFlavors},
-LIMITED:{
-img:'https://hookahcat.com.ua/image/cache/catalog/productphoto/6859/nab-r-chaser-limited-pamberry-1-600x600.png',
-fl:limitedFlavors}
-};
-
-function chaser10(){
-chaserFlav.innerHTML='';
-chaser30Box.classList.add('hidden');
-chaserFlavors.forEach(f=>{
-chaserFlav.innerHTML+=`
-<button class="btn small" onclick="add('CHASER ${f} 10ml',10)">
-${f}<br><b>120 грн</b>
-</button>`;
-});
-}
-
-function chaser30(){
-chaserFlav.innerHTML='';
-Object.keys(types).forEach(t=>{
-chaserFlav.innerHTML+=`
-<button class="btn small" onclick="openType('${t}')">${t}</button>`;
-});
-}
-
-function openType(t){
-chaser30Box.classList.remove('hidden');
-chaserImg.src=types[t].img;
-chaserTasteBtns.innerHTML='';
-types[t].fl.forEach(f=>{
-chaserTasteBtns.innerHTML+=`
-<button class="btn small" onclick="add('CHASER ${t} ${f} 30ml',30)">
-${f}<br><b>250 грн</b>
-</button>`;
-});
+  let text='Доброго дня, хочу купити:%0A';
+  let sum=0;
+  cart.forEach(i=>{
+    text+=`${i.name} x${i.qty}%0A`;
+    sum+=i.price*i.qty;
+  });
+  text+=`Сума: ${sum} грн`;
+  window.open(`https://t.me/Karasi4ek123?text=${text}`,'_blank');
 }
 </script>
 
 </body>
 </html>
+
 
